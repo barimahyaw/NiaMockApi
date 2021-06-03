@@ -1,0 +1,11 @@
+{
+  "Success": true,
+  "TimesStamp": "2021-06-03T18:33:50.7924844+00:00",
+  "Code": "200",
+  "Data": {
+    "AccessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6Im5pYVVzZXJOYW1lIiwibmJmIjoxNjIyNzQ1MjMwLCJleHAiOjE2MjMzNTAwMzAsImlhdCI6MTYyMjc0NTIzMH0.73i2gU925gjvd222iTSrsHDoJ4MoSMsyf96N6ZHX5Xw",
+    "RefreshToken": "39575aaa-2ecd-4c66-828d-fbf70a047ef9",
+    "TokenType": "Bearer",
+    "ExpiryDuration": "06/10/2021 18:33:50"
+  }
+}
