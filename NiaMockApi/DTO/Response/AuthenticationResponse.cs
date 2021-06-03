@@ -1,5 +1,4 @@
 ﻿using System;
-using NiaMockApi.DTO.Request;
 
 namespace NiaMockApi.DTO.Response
 {

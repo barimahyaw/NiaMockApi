@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using NiaMockApi.DTO.Request;
 using NiaMockApi.DTO.Response;
 using NiaMockApi.Services;
