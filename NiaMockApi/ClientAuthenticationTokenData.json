@@ -1,11 +1,11 @@
 {
   "Success": true,
-  "TimesStamp": "2021-06-03T18:33:50.7924844+00:00",
+  "TimesStamp": "2021-06-04T18:16:17.8467995+00:00",
   "Code": "200",
   "Data": {
-    "AccessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6Im5pYVVzZXJOYW1lIiwibmJmIjoxNjIyNzQ1MjMwLCJleHAiOjE2MjMzNTAwMzAsImlhdCI6MTYyMjc0NTIzMH0.73i2gU925gjvd222iTSrsHDoJ4MoSMsyf96N6ZHX5Xw",
-    "RefreshToken": "39575aaa-2ecd-4c66-828d-fbf70a047ef9",
+    "AccessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6InN0cmluZyIsIlBhc3N3b3JkIjoic3RyaW5nIiwibmJmIjoxNjIyODMwNTc3LCJleHAiOjE2MjM0MzUzNzcsImlhdCI6MTYyMjgzMDU3N30.PhNPDYp7jolYwu2lEpZKfi0N_Rls_p7VUUQpMewEnkg",
+    "RefreshToken": "7d7b7098-917a-4523-b079-444206198bb1",
     "TokenType": "Bearer",
-    "ExpiryDuration": "06/10/2021 18:33:50"
+    "ExpiryDuration": "06/11/2021 18:16:17"
   }
 }

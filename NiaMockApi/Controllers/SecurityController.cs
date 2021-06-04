@@ -1,25 +1,43 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using NiaMockApi.Attributes;
 using NiaMockApi.DTO.Request;
 using NiaMockApi.DTO.Response;
 using NiaMockApi.Services;
 using System;
 using System.Globalization;
+using System.Linq;
 
 namespace NiaMockApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class SecurityController : ControllerBase
     {
         private readonly IUtilities _utils;
+        private readonly ISecurity _security;
 
-        public SecurityController(IUtilities utils)
+        public SecurityController(IUtilities utils, ISecurity security)
         {
             _utils = utils;
+            _security = security;
         }
 
         [HttpPost]
+        //[AuthorizeClient]
+        [Authorize]
         public IActionResult AuthenticationTokenGenerate(AuthenticationRequest request)
+        {
+           // if (string.IsNullOrWhiteSpace(User.Identity.Name)) return BadRequest();
+
+            var response = AuthenticationResponse(request);
+
+            return Ok(response);
+
+        }
+
+        private AuthenticationResponse AuthenticationResponse(AuthenticationRequest request)
         {
             var response = new AuthenticationResponse
             {
@@ -28,7 +46,7 @@ namespace NiaMockApi.Controllers
                 Code = "200",
                 Data = new DataResponse
                 {
-                    AccessToken = Security.GenerateJwtToken(request),
+                    AccessToken = _security.GenerateJwtToken(request),
                     ExpiryDuration = DateTime.UtcNow.AddDays(7).ToString(CultureInfo.InvariantCulture),
                     RefreshToken = Guid.NewGuid().ToString(),
                     TokenType = "Bearer"
@@ -36,10 +54,26 @@ namespace NiaMockApi.Controllers
             };
 
             _utils.GenerateAuthJsonFile(response);
-
-            return Ok(response);
+            return response;
         }
 
+        [HttpGet]
+        //[AuthorizeClient]
+        //[Authorize]
+        public IActionResult RefreshToken(string refreshToken)
+        {
+            //if (!User.Identity.IsAuthenticated) return BadRequest();
+            if (string.IsNullOrWhiteSpace(refreshToken))
+                return BadRequest();
 
+            var response = _utils.ReadClientAuthenticationToken();
+
+            if (refreshToken == response.Data.RefreshToken)
+            {
+                return Ok(response);
+            }
+
+            return NotFound();
+        }
     }
 }

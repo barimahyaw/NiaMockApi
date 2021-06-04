@@ -1,9 +1,14 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using NiaMockApi.Attributes;
+using NiaMockApi.Handlers;
+using NiaMockApi.MiddleWares;
 using NiaMockApi.Services;
 
 namespace NiaMockApi
@@ -27,9 +32,12 @@ namespace NiaMockApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "NiaMockApi", Version = "v1" });
             });
 
-            services.AddTransient<IUtilities, Utilities>();
-        }
+            services.AddAuthentication("BasicAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
+            services.AddTransient<IUtilities, Utilities>();
+            services.AddScoped<ISecurity, Security>();
+        }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -40,16 +48,21 @@ namespace NiaMockApi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NiaMockApi v1"));
             }
 
+            //app.UseMiddleware<BasicAuthenticationMiddleware>();
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }

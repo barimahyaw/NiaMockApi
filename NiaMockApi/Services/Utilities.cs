@@ -25,5 +25,20 @@ namespace NiaMockApi.Services
 
             File.WriteAllText(path, authJson);
         }
+
+        /// <summary>
+        /// Read the client authentication token from the ClientAuthenticationTokenData json file
+        /// </summary>
+        /// <returns></returns>
+        public AuthenticationResponse ReadClientAuthenticationToken()
+        {
+            var path = Path.Combine(_hostEnvironment.ContentRootPath, "ClientAuthenticationTokenData.json");
+
+            var fileReader = File.ReadAllText(path);
+
+            var tokenData = JsonConvert.DeserializeObject<AuthenticationResponse>(fileReader);
+
+            return tokenData;
+        }
     }
 }
