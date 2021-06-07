@@ -1,12 +1,12 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using NiaMockApi.DTO.Request;
+using NiaMockApi.DTO.Response;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.AspNetCore.Hosting;
-using Newtonsoft.Json;
-using NiaMockApi.DTO.Response;
 
 namespace NiaMockApi.Services
 {
@@ -58,15 +58,41 @@ namespace NiaMockApi.Services
             return tokenHandler.WriteToken(token);
         }
 
+        /// <summary>
+        /// Authenticate client against access token
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public bool Login(string userName, string password)
         {
+            if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(password))
+                return false;
+
             var jsonClientToken = _utils.ReadClientAuthenticationToken();
 
-            if (userName == jsonClientToken.Data.RefreshToken)
-                return true;
-            
+            var jwt = jsonClientToken.Data.AccessToken;
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(jwt);
 
-            return false;
+            var credentials = token.Claims.ToArray();
+
+            var existingUserName = credentials[0].ToString();
+            var existingPassword = credentials[1].ToString();
+
+            return existingUserName == userName && existingPassword == password;
+        }
+
+        /// <summary>
+        /// Refresh Client Token
+        /// </summary>
+        /// <param name="refreshToken"></param>
+        /// <returns></returns>
+        public AuthenticationResponse GenerateRefreshedToken(string refreshToken)
+        {
+            var response = _utils.ReadClientAuthenticationToken();
+
+            return refreshToken == response.Data.RefreshToken ? response : new AuthenticationResponse();
         }
     }
 }

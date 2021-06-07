@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NiaMockApi.Attributes;
 using NiaMockApi.DTO.Request;
 using NiaMockApi.DTO.Response;
 using NiaMockApi.Services;
 using System;
 using System.Globalization;
-using System.Linq;
 
 namespace NiaMockApi.Controllers
 {
@@ -29,7 +27,7 @@ namespace NiaMockApi.Controllers
         [Authorize]
         public IActionResult AuthenticationTokenGenerate(AuthenticationRequest request)
         {
-           // if (string.IsNullOrWhiteSpace(User.Identity.Name)) return BadRequest();
+            // if (string.IsNullOrWhiteSpace(User.Identity.Name)) return BadRequest();
 
             var response = AuthenticationResponse(request);
 
@@ -66,14 +64,7 @@ namespace NiaMockApi.Controllers
             if (string.IsNullOrWhiteSpace(refreshToken))
                 return BadRequest();
 
-            var response = _utils.ReadClientAuthenticationToken();
-
-            if (refreshToken == response.Data.RefreshToken)
-            {
-                return Ok(response);
-            }
-
-            return NotFound();
+            return Ok(_security.GenerateRefreshedToken(refreshToken));
         }
     }
 }

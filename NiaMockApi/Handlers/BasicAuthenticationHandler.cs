@@ -50,7 +50,7 @@ namespace NiaMockApi.Handlers
 
                 if (!_security.Login(userName, password))
                 {
-                    var claims = new[] { new Claim(ClaimTypes.Name, password) };
+                    var claims = new[] { new Claim(ClaimTypes.Name, userName) };
                     var identity = new ClaimsIdentity(claims, Scheme.Name);
                     var principal = new ClaimsPrincipal(identity);
                     var ticket = new AuthenticationTicket(principal, Scheme.Name);
