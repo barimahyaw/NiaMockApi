@@ -68,7 +68,7 @@ namespace NiaMockApi.Services
         {
             if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(password))
                 return false;
-
+                
             var jsonClientToken = _utils.ReadClientAuthenticationToken();
 
             var jwt = jsonClientToken.Data.AccessToken;

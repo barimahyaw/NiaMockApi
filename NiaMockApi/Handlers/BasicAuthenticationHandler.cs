@@ -62,7 +62,7 @@ namespace NiaMockApi.Handlers
             {
                 AuthenticateResult.Fail($"An Error Occured. Try again later. {e}");
             }
-            return AuthenticateResult.Fail("Need to implement");
+            return AuthenticateResult.Fail("Unauthorized Access");
         }
     }
 }
