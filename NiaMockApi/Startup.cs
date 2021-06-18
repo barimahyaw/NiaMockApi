@@ -30,23 +30,27 @@ namespace NiaMockApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "NiaMockApi", Version = "v1" });
             });
 
+            #region Custom Basic/Bearer Authentication Config
             //services.AddAuthentication("BasicAuthentication")
             //    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+            #endregion
 
+            #region JWT Bearer Token Authentication Config
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = Configuration["JwtIssuer"],
-                        ValidAudience = Configuration["JwtAudience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JwtSecurityKey"))
-                    };
-                });
+                   .AddJwtBearer(options =>
+                   {
+                       options.TokenValidationParameters = new TokenValidationParameters
+                       {
+                           ValidateIssuer = true,
+                           ValidateAudience = true,
+                           ValidateLifetime = true,
+                           ValidateIssuerSigningKey = true,
+                           ValidIssuer = Configuration["JwtIssuer"],
+                           ValidAudience = Configuration["JwtAudience"],
+                           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtSecurityKey"]))
+                       };
+                   }); 
+            #endregion
 
             services.AddTransient<IUtilities, Utilities>();
             services.AddScoped<ISecurity, Security>();
