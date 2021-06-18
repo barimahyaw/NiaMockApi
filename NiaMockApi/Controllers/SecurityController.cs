@@ -24,7 +24,7 @@ namespace NiaMockApi.Controllers
 
         [HttpPost]
         //[AuthorizeClient]
-        [Authorize]
+        [AllowAnonymous]
         public IActionResult AuthenticationTokenGenerate(AuthenticationRequest request)
         {
             // if (string.IsNullOrWhiteSpace(User.Identity.Name)) return BadRequest();

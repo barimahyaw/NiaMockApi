@@ -48,7 +48,7 @@ namespace NiaMockApi.Handlers
                 var userName = credentials[0].ToString();
                 var password = credentials[1].ToString();
 
-                if (!_security.Login(userName, password))
+                if (_security.Login(userName, password))
                 {
                     var claims = new[] { new Claim(ClaimTypes.Name, userName) };
                     var identity = new ClaimsIdentity(claims, Scheme.Name);
